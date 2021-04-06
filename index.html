@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Temperature Hot</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background: url(images/bg-image.jpg) no-repeat;
+            /* background-size: cover; */
+            background-size: 100% 100%;
+            min-height: 667.5px;
+
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <form class="col-md-6 m-auto py-5">
+            <div class="input-group mb-3">
+                <input id="city" type="text" class="form-control" placeholder="Enter a location for Weather ...">
+                <div class="input-group-append">
+                    <button id="submit" type="button" class="btn btn-danger">Search</button>
+                </div>
+            </div>
+        </form>
+        <div class="weather-status text-white text-center">
+            <div id="icon">
+                <!-- <img src="https://openweathermap.org/img/wn/10d@2x.png" alt=> -->
+            </div>
+            
+            <h1 id="name"></h1>
+            <h3 ><span id="temp"></span></h3>
+            <h1  id="desc" class="lead"></h1>
+        </div>
+    </div>
+
+    <script>
+        var city = document.getElementById("city")
+        var submit = document.getElementById("submit")
+        var nameValue = document.getElementById("name")
+        var temp = document.getElementById("temp")
+        var desc = document.getElementById("desc")
+        var icon = document.getElementById("icon")
+
+
+        submit.addEventListener("click",function(){
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city.value}&appid=e18f31199117b6e0cd2e3ad96c922b3a`)
+            .then (res => res.json())
+            .then (data => {
+                nameValue.innerHTML = data.name;
+                const a = data.main.temp;
+                temp.innerHTML = `${(a-273.15).toFixed(2)} &deg;C`;
+                desc.innerHTML = data.weather[0].description;
+                img = data.weather[0].icon;
+                icon.innerHTML = `<img src="https://openweathermap.org/img/wn/${img}@2x.png" alt=>`
+
+            })
+            .catch (err => alert("Enter City Name Correctly!!!"))
+        })
+
+        
+    </script>
+
+</body>
+
+</html>
